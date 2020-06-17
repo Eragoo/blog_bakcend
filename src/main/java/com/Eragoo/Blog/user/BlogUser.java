@@ -1,20 +1,30 @@
 package com.Eragoo.Blog.user;
 
-import lombok.Data;
+import com.Eragoo.Blog.role.Role;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Getter
 @Setter
-public class User {
+@Table(name = "usr")
+public class BlogUser {
     @Id
     private long id;
+
+    @NonNull
     private String login;
+
+    @NonNull
     private String password;
+
+    @NonNull
     private String username;
+
+    @ManyToOne
+    @NonNull
     private Role role;
 }

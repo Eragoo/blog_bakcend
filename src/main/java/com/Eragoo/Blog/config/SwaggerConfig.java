@@ -5,11 +5,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import springfox.documentation.builders.AlternateTypeBuilder;
 import springfox.documentation.builders.AlternateTypePropertyBuilder;
+import springfox.documentation.service.ApiKey;
 import springfox.documentation.service.AuthorizationScope;
 import springfox.documentation.service.SecurityReference;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
@@ -37,6 +40,8 @@ public class SwaggerConfig {
                 .alternateTypeRules(newRule(typeResolver.resolve(Sort.class),
                         typeResolver.resolve(List.class, String.class)))
                 .ignoredParameterTypes(AuthenticationPrincipal.class)
+                .securitySchemes(List.of(new ApiKey("Authorization token", HttpHeaders.AUTHORIZATION, "header")))
+                .securityContexts(List.of(securityContext()))
                 .select()
                 .apis(basePackage("com.Eragoo.Blog"))
                 .build();
@@ -62,6 +67,12 @@ public class SwaggerConfig {
                 .withType(type)
                 .withCanRead(true)
                 .withCanWrite(true);
+    }
+
+    private SecurityContext securityContext() {
+        return SecurityContext.builder()
+                .securityReferences(List.of(globalReference()))
+                .build();
     }
 
     private SecurityReference globalReference() {
