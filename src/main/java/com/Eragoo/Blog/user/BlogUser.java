@@ -1,6 +1,7 @@
 package com.Eragoo.Blog.user;
 
 import com.Eragoo.Blog.role.Role;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;

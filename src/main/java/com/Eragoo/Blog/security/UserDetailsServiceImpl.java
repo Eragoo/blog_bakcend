@@ -28,7 +28,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         List<GrantedAuthority> authorities = blogUser.getRole().getPermissions()
                 .stream()
-                .map(rolePermission -> new SimpleGrantedAuthority(rolePermission.getPermission().name()))
+                .map(rolePermission -> new SimpleGrantedAuthority(rolePermission.name()))
                 .collect(Collectors.toList());
 
 
