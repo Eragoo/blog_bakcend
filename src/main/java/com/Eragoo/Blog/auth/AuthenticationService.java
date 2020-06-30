@@ -11,7 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static com.Eragoo.Blog.user.BlogUserHelper.getPermissions;
 
 @Service
 @AllArgsConstructor
@@ -22,31 +23,20 @@ public class AuthenticationService {
 
     public Token getToken(UserAuthenticationCommand command) {
         BlogUser user = userRepository.findByUsername(command.getUsername());
-        verifyUserFromDb(command, user);
+        verifyUsernameAndPassword(command, user);
         List<String> permissions = getPermissions(user);
         String providedToken = tokenProvider.createToken(user.getUsername(), permissions);
         return new Token(providedToken);
     }
 
-    private List<String> getPermissions(BlogUser user) {
-        return user.getRole().getPermissions()
-                .stream()
-                .map(rolePermission -> rolePermission.getPermission().name())
-                .collect(Collectors.toList());
-    }
-
-    private void verifyUserFromDb(UserAuthenticationCommand command, BlogUser user) {
-        if (user == null || !isCredentialsCorrect(command, user)) {
+    private void verifyUsernameAndPassword(UserAuthenticationCommand expectedUser, BlogUser receivedUser) {
+        if (receivedUser == null || !isPasswordMatches(expectedUser.getPassword(), receivedUser.getPassword())) {
             throw new UserNotFoundException("user with this username and password not found");
         }
     }
 
-    private boolean isCredentialsCorrect(UserAuthenticationCommand command, BlogUser user) {
-        return isPasswordMatches(command.getPassword(), user.getPassword())
-                && user.getUsername().equals(command.getUsername());
-    }
-
-    private boolean isPasswordMatches(String rawPassword, String encodedPassword) {
-        return bCryptPasswordEncoder.matches(rawPassword, encodedPassword);
+    private boolean isPasswordMatches(String expectedEncodedPassword, String receivedRawPassword) {
+        assert expectedEncodedPassword != null && receivedRawPassword != null;
+        return bCryptPasswordEncoder.matches(expectedEncodedPassword, receivedRawPassword);
     }
 }

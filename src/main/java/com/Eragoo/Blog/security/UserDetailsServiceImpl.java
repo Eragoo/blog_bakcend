@@ -5,7 +5,6 @@ import com.Eragoo.Blog.user.BlogUser;
 import com.Eragoo.Blog.user.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,7 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static com.Eragoo.Blog.user.BlogUserHelper.getGrantedAuthorities;
 
 @AllArgsConstructor
 @Service
@@ -26,12 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (blogUser == null){
             throw new UserNotFoundException();
         }
-        List<GrantedAuthority> authorities = blogUser.getRole().getPermissions()
-                .stream()
-                .map(rolePermission -> new SimpleGrantedAuthority(rolePermission.getPermission().name()))
-                .collect(Collectors.toList());
-
-
+        List<GrantedAuthority> authorities = getGrantedAuthorities(blogUser);
         return new User(blogUser.getUsername(), blogUser.getPassword(), authorities);
     }
 }

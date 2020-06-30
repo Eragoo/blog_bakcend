@@ -15,7 +15,8 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static com.Eragoo.Blog.user.BlogUserHelper.getPermissions;
 
 @SpringJUnitConfig()
 public class AuthenticationServiceTest {
@@ -48,7 +49,7 @@ public class AuthenticationServiceTest {
     @Test
     public void tokenGeneratedByAuthServiceMatchesWithTokenGeneratedByTokenProvider() {
         Token token = authenticationService.getToken(new UserAuthenticationCommand(TEST_USERNAME, TEST_PASSWORD));
-        List<String> permissions = getPermissions();
+        List<String> permissions = getPermissions(blogUser);
         String providedToken = tokenProvider.createToken(blogUser.getUsername(), permissions);
 
         String username = getUsernameFromToken(token.getToken());
@@ -59,13 +60,6 @@ public class AuthenticationServiceTest {
 
     private String getUsernameFromToken(String token) {
         return tokenProvider.parseUser(token).get().getUsername();
-    }
-
-    private static List<String> getPermissions() {
-        return blogUser.getRole().getPermissions()
-                .stream()
-                .map(rolePermission -> rolePermission.getPermission().name())
-                .collect(Collectors.toList());
     }
 
     private static BlogUser createTestBlogUser(BCryptPasswordEncoder passwordEncoder) {

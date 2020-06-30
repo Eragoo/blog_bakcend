@@ -1,8 +1,6 @@
 package com.Eragoo.Blog.config;
 
-import com.Eragoo.Blog.security.JwtAuthenticationFilter;
 import com.Eragoo.Blog.security.JwtConfigurer;
-import com.Eragoo.Blog.security.JwtTokenProvider;
 import com.Eragoo.Blog.security.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +19,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsServiceImpl userDetailsService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-    private JwtTokenProvider tokenProvider;
     private JwtConfigurer jwtConfigurer;
 
     @Override
@@ -41,7 +38,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api/auth//username-password-token").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                //.addFilter(new JwtAuthenticationFilter(authenticationManager(), tokenProvider))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .apply(jwtConfigurer);
