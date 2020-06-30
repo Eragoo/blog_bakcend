@@ -5,6 +5,9 @@ spring:
     password: ${DB_PASS:postgres}
   flyway:
     out-of-order: true
+  jpa:
+    show-sql: true
+
 
 application:
   security:

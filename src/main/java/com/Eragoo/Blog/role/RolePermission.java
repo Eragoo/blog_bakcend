@@ -9,9 +9,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
 @Embeddable
+@Table(name = "role_permission")
 @Getter
 @Setter
-@Table(name = "role_permission")
 public class RolePermission {
     @Enumerated(EnumType.STRING)
     private Permission permission;

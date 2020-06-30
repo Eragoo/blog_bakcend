@@ -1,20 +1,19 @@
 package com.Eragoo.Blog.config;
 
-import com.Eragoo.Blog.security.*;
+import com.Eragoo.Blog.security.JwtAuthenticationFilter;
+import com.Eragoo.Blog.security.JwtConfigurer;
+import com.Eragoo.Blog.security.JwtTokenProvider;
+import com.Eragoo.Blog.security.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.HttpStatusEntryPoint;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 @AllArgsConstructor
@@ -39,10 +38,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/api/login/").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/auth//username-password-token").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilter(new JwtAuthenticationFilter(authenticationManager(), tokenProvider))
+                //.addFilter(new JwtAuthenticationFilter(authenticationManager(), tokenProvider))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .apply(jwtConfigurer);

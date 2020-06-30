@@ -2,12 +2,9 @@ package com.Eragoo.Blog.security;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.authorization.ReactiveAuthorizationManager;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.server.authorization.AuthorizationWebFilter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.server.ServerWebExchange;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;

@@ -39,12 +39,6 @@ public class AuthenticationServiceTest {
     }
 
     @Test
-    public void tokenStartsBearer() {
-        Token token = authenticationService.getToken(new UserAuthenticationCommand(TEST_USERNAME, TEST_PASSWORD));
-        Assertions.assertTrue(token.getToken().startsWith(JwtDataProvider.AUTH_TOKEN_PREFIX));
-    }
-
-    @Test
     public void usernameInTokenMatchesWithProvidedUsername() {
         Token token = authenticationService.getToken(new UserAuthenticationCommand(TEST_USERNAME, TEST_PASSWORD));
         AuthenticatedUser authenticatedUser = tokenProvider.parseUser(token.getToken()).get();
@@ -52,15 +46,26 @@ public class AuthenticationServiceTest {
     }
 
     @Test
-    public void tokenGeneratesCorrectly() {
+    public void tokenGeneratedByAuthServiceMatchesWithTokenGeneratedByTokenProvider() {
         Token token = authenticationService.getToken(new UserAuthenticationCommand(TEST_USERNAME, TEST_PASSWORD));
         List<String> permissions = getPermissions();
         String providedToken = tokenProvider.createToken(blogUser.getUsername(), permissions);
-        Assertions.assertEquals(token.getToken(), providedToken);
+
+        String username = getUsernameFromToken(token.getToken());
+        String expectedUsername = getUsernameFromToken(providedToken);
+
+        Assertions.assertEquals(username, expectedUsername);
+    }
+
+    private String getUsernameFromToken(String token) {
+        return tokenProvider.parseUser(token).get().getUsername();
     }
 
     private static List<String> getPermissions() {
-        return blogUser.getRole().getPermissions().stream().map(Enum::name).collect(Collectors.toList());
+        return blogUser.getRole().getPermissions()
+                .stream()
+                .map(rolePermission -> rolePermission.getPermission().name())
+                .collect(Collectors.toList());
     }
 
     private static BlogUser createTestBlogUser(BCryptPasswordEncoder passwordEncoder) {

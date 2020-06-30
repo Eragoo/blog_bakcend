@@ -2,11 +2,9 @@ package com.Eragoo.Blog.auth.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
 @AllArgsConstructor
+@Getter
 public class Token {
     private String token;
 }

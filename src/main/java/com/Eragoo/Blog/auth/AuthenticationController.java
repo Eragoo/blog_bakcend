@@ -18,6 +18,7 @@ public class AuthenticationController {
 
     @PostMapping("/username-password-token")
     public ResponseEntity<Token> getJwtTokenByUsernamePassword(UserAuthenticationCommand command) {
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        Token token = service.getToken(command);
+        return ResponseEntity.status(HttpStatus.OK).body(token);
     }
 }

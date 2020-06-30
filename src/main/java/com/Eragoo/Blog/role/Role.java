@@ -15,8 +15,9 @@ public class Role {
     private long id;
     private String name;
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "role_permission", joinColumns = @JoinColumn(name = "role_id"))
+    @Column(name = "permission")
     @NonNull
-    private Set<Permission> permissions;
+    private Set<RolePermission> permissions;
 }

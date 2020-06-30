@@ -10,6 +10,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @AllArgsConstructor
 public class AuthenticationService {
@@ -20,8 +23,16 @@ public class AuthenticationService {
     public Token getToken(UserAuthenticationCommand command) {
         BlogUser user = userRepository.findByUsername(command.getUsername());
         verifyUserFromDb(command, user);
-        //tokenProvider.createToken(user.getUsername(), user.getRole().getPermissions());
-        return null;
+        List<String> permissions = getPermissions(user);
+        String providedToken = tokenProvider.createToken(user.getUsername(), permissions);
+        return new Token(providedToken);
+    }
+
+    private List<String> getPermissions(BlogUser user) {
+        return user.getRole().getPermissions()
+                .stream()
+                .map(rolePermission -> rolePermission.getPermission().name())
+                .collect(Collectors.toList());
     }
 
     private void verifyUserFromDb(UserAuthenticationCommand command, BlogUser user) {
