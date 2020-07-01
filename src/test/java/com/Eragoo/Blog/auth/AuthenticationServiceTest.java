@@ -22,21 +22,20 @@ import static com.Eragoo.Blog.user.BlogUserHelper.getPermissions;
 public class AuthenticationServiceTest {
     private final static String TEST_USERNAME = "test";
     private final static String TEST_PASSWORD = "test";
-    private static AuthenticationService authenticationService;
-    private static JwtTokenProvider tokenProvider;
+    private static UsernamePasswordAuthenticationService authenticationService;
+    private static TokenProvider tokenProvider;
     private static BlogUser blogUser;
 
     @BeforeAll
     public static void init() {
-        SecurityProps securityProps = createTestSecurityProps();
-        tokenProvider = new JwtTokenProvider(securityProps);
+        tokenProvider = TestTokenProviderFactory.getTokenProvider();
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         blogUser = createTestBlogUser(passwordEncoder);
 
         UserRepository userRepository = Mockito.mock(UserRepository.class);
         Mockito.when(userRepository.findByUsername(TEST_USERNAME)).thenReturn(blogUser);
 
-        authenticationService = new AuthenticationService(userRepository, passwordEncoder, tokenProvider);
+        authenticationService = new UsernamePasswordAuthenticationService(userRepository, passwordEncoder, tokenProvider);
     }
 
     @Test
@@ -71,12 +70,5 @@ public class AuthenticationServiceTest {
         blogUser.setPassword(passwordEncoder.encode(TEST_PASSWORD));
         blogUser.setRole(role);
         return blogUser;
-    }
-
-    private static SecurityProps createTestSecurityProps() {
-        SecurityProps securityProps = new SecurityProps();
-        securityProps.setLifetime(Duration.ofDays(1));
-        securityProps.setSignature("blog-secret-very-very-very-secret-key-that-you-dont-know-aertthrtrwetethrewfg-dstdhgsdfa");
-        return securityProps;
     }
 }

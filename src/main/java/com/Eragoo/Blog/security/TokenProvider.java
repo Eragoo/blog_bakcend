@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @Component
-public class JwtTokenProvider {
+public class TokenProvider {
     private static final String USERNAME_CLAIM = "username";
     private static final String PERMISSIONS_CLAIM = "permissions";
 

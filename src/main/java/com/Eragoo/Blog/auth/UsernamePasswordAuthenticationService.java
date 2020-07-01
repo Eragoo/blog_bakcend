@@ -2,7 +2,7 @@ package com.Eragoo.Blog.auth;
 
 import com.Eragoo.Blog.auth.dto.Token;
 import com.Eragoo.Blog.exception.UserNotFoundException;
-import com.Eragoo.Blog.security.JwtTokenProvider;
+import com.Eragoo.Blog.security.TokenProvider;
 import com.Eragoo.Blog.security.UserAuthenticationCommand;
 import com.Eragoo.Blog.user.BlogUser;
 import com.Eragoo.Blog.user.UserRepository;
@@ -16,10 +16,10 @@ import static com.Eragoo.Blog.user.BlogUserHelper.getPermissions;
 
 @Service
 @AllArgsConstructor
-public class AuthenticationService {
+public class UsernamePasswordAuthenticationService {
     private UserRepository userRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-    private JwtTokenProvider tokenProvider;
+    private TokenProvider tokenProvider;
 
     public Token getToken(UserAuthenticationCommand command) {
         BlogUser user = userRepository.findByUsername(command.getUsername());
