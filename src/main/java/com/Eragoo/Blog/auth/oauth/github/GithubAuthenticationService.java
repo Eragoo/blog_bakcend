@@ -4,8 +4,6 @@ import com.Eragoo.Blog.security.TokenProvider;
 import lombok.AllArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestOperations;
 
 import java.util.Collections;
@@ -38,35 +36,62 @@ public class GithubAuthenticationService {
 
     public String getToken(String code) {
         String accessToken = getAccessToken(code);
-        Map<String, String> params = new HashMap<>();
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set("Authorization", "token " + accessToken);
-
-        HttpEntity<Map<String, String>> httpEntity = new HttpEntity<>(params, httpHeaders);
-
-        ResponseEntity<GithubUserData> exchange = restOperations.exchange(userGettingUrl, HttpMethod.GET, httpEntity, GithubUserData.class);
-
-        String token = tokenProvider.createToken(exchange.getBody().getLogin(), Collections.emptyList());
-
-        return token;
+        GithubUserData githubUserData = getGithubUserData(accessToken);
+        return createToken(githubUserData.getName());
     }
 
     private String getAccessToken(String code) {
-        Map<String, String> params = new HashMap<>();
-        params.put("client_id", clientId);
-        params.put("client_secret", secret);
-        params.put("code", code);
+        return getGithubAccessTokenDto(code).getAccess_token();
+    }
 
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
-
-        HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(params, httpHeaders);
-
+    private GithubAccessTokenDto getGithubAccessTokenDto(String code) {
+        HttpEntity<Map<String, String>> requestEntity = getAccessTokenHttpEntity(code);
         ResponseEntity<GithubAccessTokenDto> responseEntity = restOperations.exchange(accessTokenResourceUrl,
                 HttpMethod.POST,
                 requestEntity,
                 GithubAccessTokenDto.class);
-        return responseEntity.getBody().getAccess_token();
+
+        return responseEntity.getBody();
+    }
+
+    private HttpEntity<Map<String, String>> getAccessTokenHttpEntity(String code) {
+        Map<String, String> params = getAccessTokenRequestParams(code);
+        HttpHeaders httpHeaders = getAccessTokenHttpHeaders();
+
+        return new HttpEntity<>(params, httpHeaders);
+    }
+
+    private HttpHeaders getAccessTokenHttpHeaders() {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
+        return httpHeaders;
+    }
+
+    private Map<String, String> getAccessTokenRequestParams(String code) {
+        Map<String, String> params = new HashMap<>();
+        params.put("client_id", clientId);
+        params.put("client_secret", secret);
+        params.put("code", code);
+        return params;
+    }
+
+    private GithubUserData getGithubUserData(String accessToken) {
+        HttpEntity<Map<String, String>> httpEntity = getGithubUserDataHttpEntity(accessToken);
+        ResponseEntity<GithubUserData> responseEntity = restOperations.exchange(userGettingUrl,
+                HttpMethod.GET,
+                httpEntity,
+                GithubUserData.class);
+
+        return responseEntity.getBody();
+    }
+
+    private HttpEntity<Map<String, String>> getGithubUserDataHttpEntity(String accessToken) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set("Authorization", "token " + accessToken);
+        return new HttpEntity<>(Map.of(), httpHeaders);
+    }
+
+    private String createToken(String username) {
+        return tokenProvider.createToken(username, Collections.emptyList());
     }
 }
