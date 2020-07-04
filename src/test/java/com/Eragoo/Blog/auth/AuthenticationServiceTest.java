@@ -12,16 +12,15 @@ import org.mockito.Mockito;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
 
+import static com.Eragoo.Blog.auth.SecurityTestDataProvider.TEST_PASSWORD;
+import static com.Eragoo.Blog.auth.SecurityTestDataProvider.TEST_USERNAME;
 import static com.Eragoo.Blog.user.BlogUserHelper.getPermissions;
 
 @SpringJUnitConfig()
 public class AuthenticationServiceTest {
-    private final static String TEST_USERNAME = "test";
-    private final static String TEST_PASSWORD = "test";
     private static UsernamePasswordAuthenticationService authenticationService;
     private static TokenProvider tokenProvider;
     private static BlogUser blogUser;

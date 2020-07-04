@@ -7,12 +7,11 @@ import java.time.Duration;
 
 public class TestTokenProviderFactory {
     private static TokenProvider tokenProvider;
-    private static String secret = "blog-secret-very-very-very-secret-key-that-you-dont-know-aertthrtrwetethrewfg-dstdhgsdfa";
 
     static {
         SecurityProps securityProps = new SecurityProps();
         securityProps.setLifetime(Duration.ofDays(1));
-        securityProps.setSignature(secret);
+        securityProps.setSignature(SecurityTestDataProvider.SECRET);
 
         tokenProvider = new TokenProvider(securityProps);
     }

@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/blog
     username: ${DB_USER:postgres}
-    password: ${DB_PASS:postgres}
+    password: ${DB_PASS:366326434}
   flyway:
     out-of-order: true
   jpa:
@@ -11,5 +11,8 @@ spring:
 
 application:
   security:
-    signature: ${SIGNATURE:blog-secret-very-very-very-secret-key-that-you-dont-know-aertthrtrwetethrewfg-dstdhgsdfa}
+    signature: ${SIGNATURE:key}
     lifetime: 1d
+    github:
+      secret: ${GITHUB_SECRET:secret}
+      client-id: ${CLIENT_ID:id}

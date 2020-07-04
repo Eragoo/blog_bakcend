@@ -33,13 +33,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        String[] oauthAuthenticationUrls = new String[] {"/api/auth/oauth/github/token",
+        String[] authenticationUrls = new String[] {"/api/auth/username-password",
+                                                    "/api/auth/oauth/github/token",
                                                     "/api/auth/oauth/github/oauth-url"};
-
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/api/auth/username-password").permitAll()
-                .antMatchers(HttpMethod.GET, oauthAuthenticationUrls).permitAll()
+                .antMatchers(authenticationUrls).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
