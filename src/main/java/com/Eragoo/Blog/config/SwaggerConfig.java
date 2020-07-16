@@ -14,7 +14,7 @@ import springfox.documentation.service.AuthorizationScope;
 import springfox.documentation.service.SecurityReference;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.lang.reflect.Type;
 import java.util.Arrays;
@@ -25,7 +25,7 @@ import static springfox.documentation.schema.AlternateTypeRules.newRule;
 import static springfox.documentation.spi.DocumentationType.SWAGGER_2;
 
 @Configuration
-@EnableSwagger2WebMvc
+@EnableSwagger2
 public class SwaggerConfig {
     private final TypeResolver typeResolver;
 

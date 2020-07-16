@@ -36,12 +36,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         String[] authenticationUrls = new String[] {"/api/auth/username-password",
                                                     "/api/auth/oauth/github/token",
                                                     "/api/auth/oauth/github/oauth-url"};
-        http.cors().and().csrf().disable()
+        http
+                .httpBasic().disable()
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .authorizeRequests()
                 .antMatchers(authenticationUrls).permitAll()
                 .anyRequest().authenticated()
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .apply(jwtConfigurer);
     }
