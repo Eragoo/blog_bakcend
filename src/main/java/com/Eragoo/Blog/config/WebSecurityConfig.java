@@ -33,12 +33,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/api/auth//username-password-token").permitAll()
-                .anyRequest().authenticated()
-                .and()
+        String[] authenticationUrls = new String[] {"/api/auth/username-password",
+                                                    "/api/auth/oauth/github/token",
+                                                    "/api/auth/oauth/github/oauth-url"};
+        http
+                .httpBasic().disable()
+                .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests()
+                .antMatchers(authenticationUrls).permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .apply(jwtConfigurer);
     }

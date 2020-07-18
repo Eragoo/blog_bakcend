@@ -11,21 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/auth/username-password")
 @AllArgsConstructor
-public class AuthenticationController {
-    private AuthenticationService service;
+public class UsernamePasswordAuthenticationController {
+    private UsernamePasswordAuthenticationService service;
 
 
-    @PostMapping("/get-token-by-username-password")
+    @PostMapping("/token")
     public ResponseEntity<Token> getJwtTokenByUsernamePassword(UserAuthenticationCommand command) {
         Token token = service.getToken(command);
-        return ResponseEntity.status(HttpStatus.OK).body(token);
-    }
-
-    @GetMapping("/get-token-by-github-oauth")
-    public ResponseEntity<Token> getJwtByGithubOauth() {
-        Token token = null;
         return ResponseEntity.status(HttpStatus.OK).body(token);
     }
 }

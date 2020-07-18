@@ -15,7 +15,7 @@ import java.io.IOException;
 @AllArgsConstructor
 @Component
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
-    private JwtTokenProvider tokenProvider;
+    private TokenProvider tokenProvider;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
