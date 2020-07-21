@@ -33,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        String[] authenticationUrls = new String[] {"/api/auth/username-password",
+        String[] authenticationUrls = new String[] {"/api/auth/username-password/token",
                                                     "/api/auth/oauth/github/token",
                                                     "/api/auth/oauth/github/oauth-url"};
         http
