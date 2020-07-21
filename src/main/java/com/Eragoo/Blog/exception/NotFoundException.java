@@ -3,8 +3,8 @@ package com.Eragoo.Blog.exception;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public class UserNotFoundException extends RuntimeException{
-    public UserNotFoundException(String message) {
+public class NotFoundException extends RuntimeException{
+    public NotFoundException(String message) {
         super(message);
     }
 }
