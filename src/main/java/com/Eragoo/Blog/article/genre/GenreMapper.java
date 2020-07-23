@@ -1,5 +1,6 @@
 package com.Eragoo.Blog.article.genre;
 
+import com.Eragoo.Blog.article.genre.dto.GenreDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

@@ -1,5 +1,6 @@
 package com.Eragoo.Blog.article.genre;
 
+import com.Eragoo.Blog.article.genre.dto.GenreDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

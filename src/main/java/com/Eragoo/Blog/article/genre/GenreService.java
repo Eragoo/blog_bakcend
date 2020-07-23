@@ -1,5 +1,6 @@
 package com.Eragoo.Blog.article.genre;
 
+import com.Eragoo.Blog.article.genre.dto.GenreDto;
 import com.Eragoo.Blog.exception.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
