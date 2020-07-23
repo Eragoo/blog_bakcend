@@ -7,8 +7,8 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Builder
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Article {

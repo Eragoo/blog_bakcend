@@ -14,24 +14,30 @@ public class GenreService {
     private GenreRepository genreRepository;
     private GenreMapper genreMapper;
 
-    public GenreDto getById(long id) {
-        Genre genre = genreRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Genre with id " + id + " not found"));
-        return genreMapper.genreToGenreDto(genre);
+    public GenreDto get(long id) {
+        Genre genre = getGenreIfExist(id);
+        return genreMapper.entityToDto(genre);
     }
 
     public Set<GenreDto> getAll() {
         List<Genre> genres = genreRepository.findAll();
-        return genreMapper.genreListToGenreSetDto(genres);
+        return genreMapper.entityListToSetDto(genres);
     }
 
     public GenreDto create(GenreDto genreDto) {
-        Genre genre = genreMapper.genreDtoToGenre(genreDto);
+        Genre genre = genreMapper.dtoToEntity(genreDto);
         Genre savedGenre = genreRepository.save(genre);
-        return genreMapper.genreToGenreDto(savedGenre);
+        return genreMapper.entityToDto(savedGenre);
     }
 
     public void delete(long id) {
-        genreRepository.deleteById(id);
+        Genre genre = getGenreIfExist(id);
+        genreRepository.delete(genre);
+    }
+
+    private Genre getGenreIfExist(long id) {
+        return genreRepository
+                .findById(id)
+                .orElseThrow(() -> new NotFoundException("Genre with id " + id + " not found"));
     }
 }

@@ -9,8 +9,8 @@ import java.util.Set;
 
 @Mapper
 public interface GenreMapper {
-    GenreDto genreToGenreDto(Genre genre);
-    Set<GenreDto> genreListToGenreSetDto(List<Genre> genreList);
+    GenreDto entityToDto(Genre genre);
+    Set<GenreDto> entityListToSetDto(List<Genre> genreList);
     @Mapping(target = "id", ignore = true)
-    Genre genreDtoToGenre(GenreDto genreDto);
+    Genre dtoToEntity(GenreDto genreDto);
 }
