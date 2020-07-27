@@ -4,7 +4,8 @@ import com.Eragoo.Blog.article.dto.ArticleCommand;
 import com.Eragoo.Blog.article.dto.ArticleDto;
 import com.Eragoo.Blog.article.genre.Genre;
 import com.Eragoo.Blog.article.genre.GenreRepository;
-import com.Eragoo.Blog.exception.NotFoundException;
+import com.Eragoo.Blog.error.exception.ConflictException;
+import com.Eragoo.Blog.error.exception.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -62,7 +63,7 @@ public class ArticleService {
     private void validateProvidedGenres(ArticleCommand articleCommand, Collection<Genre> genres) {
         boolean match = isGenresMatches(articleCommand.getGenres(), genres);
         if (!match) {
-            throw new NotFoundException("Some genre in provided article is not exist");
+            throw new ConflictException("Some genre in provided article is not exist");
         }
     }
 

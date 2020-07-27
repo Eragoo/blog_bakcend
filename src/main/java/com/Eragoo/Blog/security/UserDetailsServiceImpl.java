@@ -1,6 +1,6 @@
 package com.Eragoo.Blog.security;
 
-import com.Eragoo.Blog.exception.NotFoundException;
+import com.Eragoo.Blog.error.exception.NotFoundException;
 import com.Eragoo.Blog.user.BlogUser;
 import com.Eragoo.Blog.user.UserRepository;
 import lombok.AllArgsConstructor;

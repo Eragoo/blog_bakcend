@@ -1,7 +1,7 @@
 package com.Eragoo.Blog.auth;
 
 import com.Eragoo.Blog.auth.dto.Token;
-import com.Eragoo.Blog.exception.NotFoundException;
+import com.Eragoo.Blog.error.exception.NotFoundException;
 import com.Eragoo.Blog.security.TokenProvider;
 import com.Eragoo.Blog.security.UserAuthenticationCommand;
 import com.Eragoo.Blog.user.BlogUser;
