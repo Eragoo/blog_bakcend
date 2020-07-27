@@ -1,6 +1,8 @@
-package com.Eragoo.Blog.exception;
+package com.Eragoo.Blog.error.exception;
 
 import lombok.NoArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @NoArgsConstructor
 public class NotFoundException extends RuntimeException{
