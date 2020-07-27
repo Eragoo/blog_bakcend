@@ -1,6 +1,6 @@
 package com.Eragoo.Blog.security;
 
-import com.Eragoo.Blog.exception.UserNotFoundException;
+import com.Eragoo.Blog.exception.NotFoundException;
 import com.Eragoo.Blog.user.BlogUser;
 import com.Eragoo.Blog.user.UserRepository;
 import lombok.AllArgsConstructor;
@@ -24,7 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         BlogUser blogUser = userRepository.findByUsername(username);
         if (blogUser == null){
-            throw new UserNotFoundException();
+            throw new NotFoundException();
         }
         List<GrantedAuthority> authorities = getGrantedAuthorities(blogUser);
         return new User(blogUser.getUsername(), blogUser.getPassword(), authorities);

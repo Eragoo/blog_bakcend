@@ -1,7 +1,7 @@
 package com.Eragoo.Blog.auth;
 
 import com.Eragoo.Blog.auth.dto.Token;
-import com.Eragoo.Blog.exception.UserNotFoundException;
+import com.Eragoo.Blog.exception.NotFoundException;
 import com.Eragoo.Blog.security.TokenProvider;
 import com.Eragoo.Blog.security.UserAuthenticationCommand;
 import com.Eragoo.Blog.user.BlogUser;
@@ -31,7 +31,7 @@ public class UsernamePasswordAuthenticationService {
 
     private void verifyUsernameAndPassword(UserAuthenticationCommand expectedUser, BlogUser receivedUser) {
         if (receivedUser == null || !isPasswordMatches(expectedUser.getPassword(), receivedUser.getPassword())) {
-            throw new UserNotFoundException("user with this username and password not found");
+            throw new NotFoundException("user with this username and password not found");
         }
     }
 
