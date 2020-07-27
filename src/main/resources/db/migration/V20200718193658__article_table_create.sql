@@ -14,7 +14,7 @@ CREATE TABLE genre
     PRIMARY KEY (id)
 );
 
-CREATE TABLE article_genre
+CREATE TABLE article_genres
 (
     article_id BIGINT NOT NULL,
     genre_id   BIGINT NOT NULL,

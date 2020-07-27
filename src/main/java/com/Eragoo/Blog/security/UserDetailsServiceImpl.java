@@ -2,7 +2,7 @@ package com.Eragoo.Blog.security;
 
 import com.Eragoo.Blog.error.exception.NotFoundException;
 import com.Eragoo.Blog.user.BlogUser;
-import com.Eragoo.Blog.user.UserRepository;
+import com.Eragoo.Blog.user.BlogUserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -18,11 +18,11 @@ import static com.Eragoo.Blog.user.BlogUserHelper.getGrantedAuthorities;
 @AllArgsConstructor
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-    private UserRepository userRepository;
+    private BlogUserRepository blogUserRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        BlogUser blogUser = userRepository.findByUsername(username);
+        BlogUser blogUser = blogUserRepository.findByUsername(username);
         if (blogUser == null){
             throw new NotFoundException();
         }
