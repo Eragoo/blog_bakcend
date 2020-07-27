@@ -1,6 +1,7 @@
 package com.Eragoo.Blog.article;
 
 import com.Eragoo.Blog.article.genre.Genre;
+import com.Eragoo.Blog.user.BlogUser;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,6 +19,8 @@ public class Article {
     private String title;
     private String text;
     private int rating;
+    @ManyToOne
+    private BlogUser author;
     @ManyToMany
     @JoinTable(
             name = "article_genres",

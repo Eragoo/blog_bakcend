@@ -15,5 +15,6 @@ public class ArticleDto {
     private String title;
     private String text;
     private int rating;
+    private AuthorDto author;
     private Set<GenreDto> genres;
 }

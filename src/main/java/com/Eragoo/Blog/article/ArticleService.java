@@ -2,10 +2,13 @@ package com.Eragoo.Blog.article;
 
 import com.Eragoo.Blog.article.dto.ArticleCommand;
 import com.Eragoo.Blog.article.dto.ArticleDto;
+import com.Eragoo.Blog.article.dto.AuthorDto;
 import com.Eragoo.Blog.article.genre.Genre;
 import com.Eragoo.Blog.article.genre.GenreRepository;
 import com.Eragoo.Blog.error.exception.ConflictException;
 import com.Eragoo.Blog.error.exception.NotFoundException;
+import com.Eragoo.Blog.user.BlogUser;
+import com.Eragoo.Blog.user.BlogUserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +24,7 @@ public class ArticleService {
     private ArticleRepository articleRepository;
     private GenreRepository genreRepository;
     private ArticleMapper articleMapper;
+    private BlogUserRepository blogUserRepository;
 
     public Set<ArticleDto> getAll() {
         List<Article> articles = articleRepository.findAll();
@@ -38,10 +42,17 @@ public class ArticleService {
     }
 
     public ArticleDto create(ArticleCommand articleCommand) {
-        Set<Genre> genres = findAllGenres(articleCommand);
-        validateProvidedGenres(articleCommand, genres);
-        Article article = constructArticle(articleCommand, genres);
+        BlogUser author = findAuthor(articleCommand.getAuthorId());
+        Set<Genre> genres = findAllGenres(articleCommand.getGenres());
+        validateProvidedGenres(articleCommand.getGenres(), genres);
+        Article article = constructArticle(articleCommand, genres, author);
         return saveArticle(article);
+    }
+
+    private BlogUser findAuthor(Long authorId) {
+        String exceptionMsg = "Author with id " + authorId + "not found";
+        return blogUserRepository.findById(authorId)
+                .orElseThrow(()->new ConflictException(exceptionMsg));
     }
 
     private ArticleDto saveArticle(Article article) {
@@ -49,19 +60,20 @@ public class ArticleService {
         return articleMapper.entityToDto(saved);
     }
 
-    private Article constructArticle(ArticleCommand articleCommand, Set<Genre> genres) {
+    private Article constructArticle(ArticleCommand articleCommand, Set<Genre> genres, BlogUser author) {
         Article article = articleMapper.commandToEntity(articleCommand);
         article.setGenres(genres);
+        article.setAuthor(author);
         return article;
     }
 
-    private Set<Genre> findAllGenres(ArticleCommand articleCommand) {
+    private Set<Genre> findAllGenres(Set<Long> genres) {
         return new HashSet<>(genreRepository
-                .findAllById(articleCommand.getGenres()));
+                .findAllById(genres));
     }
 
-    private void validateProvidedGenres(ArticleCommand articleCommand, Collection<Genre> genres) {
-        boolean match = isGenresMatches(articleCommand.getGenres(), genres);
+    private void validateProvidedGenres(Set<Long> expected, Collection<Genre> actual) {
+        boolean match = isGenresMatches(expected, actual);
         if (!match) {
             throw new ConflictException("Some genre in provided article is not exist");
         }

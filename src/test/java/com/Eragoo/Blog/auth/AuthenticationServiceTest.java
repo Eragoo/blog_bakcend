@@ -4,7 +4,7 @@ import com.Eragoo.Blog.auth.dto.Token;
 import com.Eragoo.Blog.role.Role;
 import com.Eragoo.Blog.security.*;
 import com.Eragoo.Blog.user.BlogUser;
-import com.Eragoo.Blog.user.UserRepository;
+import com.Eragoo.Blog.user.BlogUserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -31,10 +31,10 @@ public class AuthenticationServiceTest {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         blogUser = createTestBlogUser(passwordEncoder);
 
-        UserRepository userRepository = Mockito.mock(UserRepository.class);
-        Mockito.when(userRepository.findByUsername(TEST_USERNAME)).thenReturn(blogUser);
+        BlogUserRepository blogUserRepository = Mockito.mock(BlogUserRepository.class);
+        Mockito.when(blogUserRepository.findByUsername(TEST_USERNAME)).thenReturn(blogUser);
 
-        authenticationService = new UsernamePasswordAuthenticationService(userRepository, passwordEncoder, tokenProvider);
+        authenticationService = new UsernamePasswordAuthenticationService(blogUserRepository, passwordEncoder, tokenProvider);
     }
 
     @Test

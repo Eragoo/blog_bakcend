@@ -17,16 +17,12 @@ import javax.persistence.Table;
 public class BlogUser {
     @Id
     private long id;
-
     @NonNull
     private String login;
-
     @NonNull
     private String password;
-
     @NonNull
     private String username;
-
     @ManyToOne
     @NonNull
     private Role role;

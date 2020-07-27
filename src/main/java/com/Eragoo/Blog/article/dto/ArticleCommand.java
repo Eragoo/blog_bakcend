@@ -19,5 +19,7 @@ public class ArticleCommand {
     @NotNull
     private int rating;
     @NotNull
+    private long authorId;
+    @NotNull
     private Set<Long> genres;
 }

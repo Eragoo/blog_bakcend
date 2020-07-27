@@ -5,7 +5,7 @@ import com.Eragoo.Blog.error.exception.NotFoundException;
 import com.Eragoo.Blog.security.TokenProvider;
 import com.Eragoo.Blog.security.UserAuthenticationCommand;
 import com.Eragoo.Blog.user.BlogUser;
-import com.Eragoo.Blog.user.UserRepository;
+import com.Eragoo.Blog.user.BlogUserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,12 +17,12 @@ import static com.Eragoo.Blog.user.BlogUserHelper.getPermissions;
 @Service
 @AllArgsConstructor
 public class UsernamePasswordAuthenticationService {
-    private UserRepository userRepository;
+    private BlogUserRepository blogUserRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private TokenProvider tokenProvider;
 
     public Token getToken(UserAuthenticationCommand command) {
-        BlogUser user = userRepository.findByUsername(command.getUsername());
+        BlogUser user = blogUserRepository.findByUsername(command.getUsername());
         verifyUsernameAndPassword(command, user);
         List<String> permissions = getPermissions(user);
         String providedToken = tokenProvider.createToken(user.getUsername(), permissions);
