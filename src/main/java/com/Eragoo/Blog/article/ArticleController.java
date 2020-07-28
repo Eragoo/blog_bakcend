@@ -6,7 +6,9 @@ import com.Eragoo.Blog.article.dto.ArticleSimpleDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.Set;
 
 @RestController
@@ -14,25 +16,32 @@ import java.util.Set;
 @AllArgsConstructor
 public class ArticleController {
     private ArticleService articleService;
+
     @GetMapping
+    @PreAuthorize("hasAnyAuthority(T(com.Eragoo.Blog.role.Permission).VIEW_ARTICLES, " +
+            "T(com.Eragoo.Blog.role.Permission).MANAGE_ARTICLES)")
     public ResponseEntity<Set<ArticleSimpleDto>> getArticles() {
         Set<ArticleSimpleDto> articles = articleService.getAll();
         return ResponseEntity.ok(articles);
     }
 
     @GetMapping("{id}")
+    @PreAuthorize("hasAnyAuthority(T(com.Eragoo.Blog.role.Permission).VIEW_ARTICLES, " +
+            "T(com.Eragoo.Blog.role.Permission).MANAGE_ARTICLES)")
     public ResponseEntity<ArticleDto> get(@PathVariable long id) {
         ArticleDto articleDto = articleService.get(id);
         return ResponseEntity.ok(articleDto);
     }
 
     @DeleteMapping("{id}")
+    @PreAuthorize("hasAuthority(T(com.Eragoo.Blog.role.Permission).MANAGE_ARTICLES)")
     public ResponseEntity<Void> delete(@PathVariable long id) {
         articleService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority(T(com.Eragoo.Blog.role.Permission).CREATE_ARTICLE)")
     public ResponseEntity<ArticleDto> create(ArticleCommand article) {
         ArticleDto articleDto = articleService.create(article);
         return ResponseEntity.ok(articleDto);
