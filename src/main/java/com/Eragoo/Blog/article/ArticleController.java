@@ -2,6 +2,7 @@ package com.Eragoo.Blog.article;
 
 import com.Eragoo.Blog.article.dto.ArticleCommand;
 import com.Eragoo.Blog.article.dto.ArticleDto;
+import com.Eragoo.Blog.article.dto.ArticleSimpleDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +15,8 @@ import java.util.Set;
 public class ArticleController {
     private ArticleService articleService;
     @GetMapping
-    public ResponseEntity<Set<ArticleDto>> getArticles() {
-        Set<ArticleDto> articles = articleService.getAll();
+    public ResponseEntity<Set<ArticleSimpleDto>> getArticles() {
+        Set<ArticleSimpleDto> articles = articleService.getAll();
         return ResponseEntity.ok(articles);
     }
 

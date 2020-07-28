@@ -2,6 +2,7 @@ package com.Eragoo.Blog.article;
 
 import com.Eragoo.Blog.article.dto.ArticleCommand;
 import com.Eragoo.Blog.article.dto.ArticleDto;
+import com.Eragoo.Blog.article.dto.ArticleSimpleDto;
 import com.Eragoo.Blog.article.dto.AuthorDto;
 import com.Eragoo.Blog.article.genre.Genre;
 import com.Eragoo.Blog.article.genre.GenreRepository;
@@ -26,7 +27,7 @@ public class ArticleService {
     private ArticleMapper articleMapper;
     private BlogUserRepository blogUserRepository;
 
-    public Set<ArticleDto> getAll() {
+    public Set<ArticleSimpleDto> getAll() {
         List<Article> articles = articleRepository.findAll();
         return articleMapper.entityListToSetDto(articles);
     }
