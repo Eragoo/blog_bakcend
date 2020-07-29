@@ -6,4 +6,5 @@ public enum Permission {
     VIEW_ARTICLES,
     MANAGE_GENRES,
     VIEW_GENRES,
+    MANAGE_ROLES,
 }
