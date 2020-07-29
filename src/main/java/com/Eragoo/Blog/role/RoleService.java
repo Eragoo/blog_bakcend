@@ -6,6 +6,8 @@ import com.Eragoo.Blog.role.dto.RoleDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class RoleService {
@@ -23,5 +25,14 @@ public class RoleService {
         Role providedRole = roleMapper.commandToEntity(roleCommand);
         Role savedRole = roleRepository.save(providedRole);
         return roleMapper.entityToDto(savedRole);
+    }
+
+    public List<RoleDto> getAll() {
+        List<Role> all = roleRepository.findAll();
+        return roleMapper.listEntityToListDto(all);
+    }
+
+    public void delete(long id) {
+        roleRepository.deleteById(id);
     }
 }
