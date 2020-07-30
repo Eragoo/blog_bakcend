@@ -5,10 +5,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -16,14 +13,11 @@ import javax.persistence.Table;
 @Table(name = "usr")
 public class BlogUser {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @NonNull
     private String login;
-    @NonNull
     private String password;
-    @NonNull
     private String username;
     @ManyToOne
-    @NonNull
     private Role role;
 }
