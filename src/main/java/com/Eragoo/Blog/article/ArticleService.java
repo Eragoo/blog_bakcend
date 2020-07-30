@@ -12,6 +12,7 @@ import com.Eragoo.Blog.user.BlogUser;
 import com.Eragoo.Blog.user.BlogUserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -21,6 +22,7 @@ import java.util.function.Predicate;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class ArticleService {
     private ArticleRepository articleRepository;
     private GenreRepository genreRepository;
@@ -46,8 +48,25 @@ public class ArticleService {
         BlogUser author = findAuthor(articleCommand.getAuthorId());
         Set<Genre> genres = findAllGenres(articleCommand.getGenres());
         validateProvidedGenres(articleCommand.getGenres(), genres);
-        Article article = constructArticle(articleCommand, genres, author);
+
+        Article article = new Article();
+        updateArticleFields(article, articleCommand, author, genres);
         return saveArticle(article);
+    }
+
+    private void updateArticleFields(Article article, ArticleCommand articleCommand, BlogUser author, Set<Genre> genres) {
+        articleMapper.updateArticleFromCommand(articleCommand, article);
+        article.setGenres(genres);
+        article.setAuthor(author);
+    }
+
+    public ArticleDto update(long id , ArticleCommand articleCommand) {
+        Article article = getArticleIfExist(id);
+        BlogUser newAuthor = findAuthor(articleCommand.getAuthorId());
+        Set<Genre> newGenres = findAllGenres(articleCommand.getGenres());
+        validateProvidedGenres(articleCommand.getGenres(), newGenres);
+        updateArticleFields(article, articleCommand, newAuthor, newGenres);
+        return articleMapper.entityToDto(article);
     }
 
     private BlogUser findAuthor(Long authorId) {
@@ -59,13 +78,6 @@ public class ArticleService {
     private ArticleDto saveArticle(Article article) {
         Article saved = articleRepository.save(article);
         return articleMapper.entityToDto(saved);
-    }
-
-    private Article constructArticle(ArticleCommand articleCommand, Set<Genre> genres, BlogUser author) {
-        Article article = articleMapper.commandToEntity(articleCommand);
-        article.setGenres(genres);
-        article.setAuthor(author);
-        return article;
     }
 
     private Set<Genre> findAllGenres(Set<Long> genres) {
