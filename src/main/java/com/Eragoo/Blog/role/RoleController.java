@@ -43,4 +43,11 @@ public class RoleController {
         roleService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PostMapping("{id}")
+    @PreAuthorize("hasAuthority(T(com.Eragoo.Blog.role.Permission).MANAGE_ROLES)")
+    public ResponseEntity<RoleDto> update(@PathVariable long id, RoleCommand roleCommand) {
+        RoleDto role = roleService.update(id, roleCommand);
+        return ResponseEntity.ok(role);
+    }
 }
