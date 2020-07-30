@@ -25,7 +25,7 @@ public class ArticleController {
         return ResponseEntity.ok(articles);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     @PreAuthorize("hasAnyAuthority(T(com.Eragoo.Blog.role.Permission).VIEW_ARTICLES, " +
             "T(com.Eragoo.Blog.role.Permission).MANAGE_ARTICLES)")
     public ResponseEntity<ArticleDto> get(@PathVariable long id) {
@@ -33,7 +33,7 @@ public class ArticleController {
         return ResponseEntity.ok(articleDto);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority(T(com.Eragoo.Blog.role.Permission).MANAGE_ARTICLES)")
     public ResponseEntity<Void> delete(@PathVariable long id) {
         articleService.delete(id);
@@ -44,6 +44,13 @@ public class ArticleController {
     @PreAuthorize("hasAuthority(T(com.Eragoo.Blog.role.Permission).CREATE_ARTICLE)")
     public ResponseEntity<ArticleDto> create(ArticleCommand article) {
         ArticleDto articleDto = articleService.create(article);
+        return new ResponseEntity<>(articleDto,  HttpStatus.CREATED);
+    }
+
+    @PostMapping("/{id}")
+    @PreAuthorize("hasAuthority(T(com.Eragoo.Blog.role.Permission).CREATE_ARTICLE)")
+    public ResponseEntity<ArticleDto> update(@PathVariable long id, ArticleCommand article) {
+        ArticleDto articleDto = articleService.update(id, article);
         return ResponseEntity.ok(articleDto);
     }
 }

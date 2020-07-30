@@ -16,7 +16,7 @@ import java.util.List;
 public class RoleController {
     private RoleService roleService;
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     @PreAuthorize("hasAuthority(T(com.Eragoo.Blog.role.Permission).MANAGE_ROLES)")
     public ResponseEntity<RoleDto> get(@PathVariable long id) {
         RoleDto role = roleService.getById(id);
@@ -37,10 +37,17 @@ public class RoleController {
         return ResponseEntity.ok(all);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority(T(com.Eragoo.Blog.role.Permission).MANAGE_ROLES)")
     public ResponseEntity<Void> delete(@PathVariable long id) {
         roleService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/{id}")
+    @PreAuthorize("hasAuthority(T(com.Eragoo.Blog.role.Permission).MANAGE_ROLES)")
+    public ResponseEntity<RoleDto> update(@PathVariable long id, RoleCommand roleCommand) {
+        RoleDto role = roleService.update(id, roleCommand);
+        return ResponseEntity.ok(role);
     }
 }

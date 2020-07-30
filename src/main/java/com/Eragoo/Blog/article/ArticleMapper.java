@@ -7,6 +7,7 @@ import com.Eragoo.Blog.article.dto.AuthorDto;
 import com.Eragoo.Blog.user.BlogUser;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import java.util.List;
 import java.util.Set;
@@ -23,4 +24,9 @@ public interface ArticleMapper {
     Set<ArticleSimpleDto> entityListToSetDto(List<Article> articleList);
 
     AuthorDto blogUserToAuthorDto(BlogUser user);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "author", ignore = true)
+    @Mapping(target = "genres", ignore = true)
+    void updateArticleFromCommand(ArticleCommand command, @MappingTarget Article article);
 }
