@@ -49,7 +49,7 @@ public class ArticleController {
 
     @PostMapping("/{id}")
     @PreAuthorize("hasAuthority(T(com.Eragoo.Blog.role.Permission).CREATE_ARTICLE)")
-    public ResponseEntity<ArticleDto> create(@PathVariable long id, ArticleCommand article) {
+    public ResponseEntity<ArticleDto> update(@PathVariable long id, ArticleCommand article) {
         ArticleDto articleDto = articleService.update(id, article);
         return ResponseEntity.ok(articleDto);
     }
