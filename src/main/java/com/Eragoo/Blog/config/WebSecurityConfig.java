@@ -33,16 +33,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        String[] authenticationUrls = new String[] {"/api/auth/username-password/token",
+        String[] permittedUrls = new String[] {"/api/auth/username-password/token",
                                                     "/api/auth/oauth/github/token",
-                                                    "/api/auth/oauth/github/oauth-url"};
+                                                    "/api/auth/oauth/github/oauth-url",
+                                                    "/api/user/create"};
         http
                 .httpBasic().disable()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(authenticationUrls).permitAll()
+                .antMatchers(permittedUrls).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .apply(jwtConfigurer);
