@@ -1,5 +1,6 @@
 package com.Eragoo.Blog.article.genre;
 
+import com.Eragoo.Blog.article.genre.dto.GenreCommand;
 import com.Eragoo.Blog.article.genre.dto.GenreDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -40,5 +41,12 @@ public class GenreController {
     public ResponseEntity<Void> delete(@PathVariable long id) {
         genreService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/{id}")
+    @PreAuthorize("hasAuthority(T(com.Eragoo.Blog.role.Permission).MANAGE_GENRES)")
+    public ResponseEntity<GenreDto> update(@PathVariable long id, GenreCommand genreCommand) {
+        GenreDto updated = genreService.update(id, genreCommand);
+        return ResponseEntity.ok(updated);
     }
 }
