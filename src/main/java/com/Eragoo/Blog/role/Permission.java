@@ -8,4 +8,5 @@ public enum Permission {
     MANAGE_GENRES,
     VIEW_GENRES,
     MANAGE_ROLES,
+    GET_CURRENT_USER
 }
