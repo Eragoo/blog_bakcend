@@ -6,7 +6,9 @@ import com.Eragoo.Blog.article.dto.ArticleSimpleDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
@@ -48,8 +50,10 @@ public class ArticleController {
     }
 
     @PostMapping("/{id}")
-    @PreAuthorize("hasAuthority(T(com.Eragoo.Blog.role.Permission).CREATE_ARTICLE)")
-    public ResponseEntity<ArticleDto> update(@PathVariable long id, ArticleCommand article) {
+    @PreAuthorize("hasAuthority(T(com.Eragoo.Blog.role.Permission).MANAGE_ARTICLES) ||" +
+            "(hasAuthority(T(com.Eragoo.Blog.role.Permission).MANAGE_OWN_ARTICLE) &&" +
+            "@articleMethodSecurityPolicy.isOwnArticle(principal, #id))")
+    public ResponseEntity<ArticleDto> update(@P("id") @PathVariable long id, ArticleCommand article) {
         ArticleDto articleDto = articleService.update(id, article);
         return ResponseEntity.ok(articleDto);
     }

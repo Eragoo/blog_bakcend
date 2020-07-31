@@ -4,6 +4,7 @@ public enum Permission {
     MANAGE_ARTICLES,
     CREATE_ARTICLE,
     VIEW_ARTICLES,
+    MANAGE_OWN_ARTICLE,
     MANAGE_GENRES,
     VIEW_GENRES,
     MANAGE_ROLES,
