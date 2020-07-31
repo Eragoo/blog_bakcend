@@ -3,6 +3,7 @@ package com.Eragoo.Blog.role;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 
 @Entity
@@ -19,6 +20,5 @@ public class Role {
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "role_permission", joinColumns = @JoinColumn(name = "role_id"))
     @Column(name = "permission")
-    @NonNull
     private Set<RolePermission> permissions;
 }
