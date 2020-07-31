@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
-public class ArticleMethodSecurityPolicy {
+public class ArticleMethodSecurityHelper {
     private ArticleService articleService;
 
     public boolean isOwnArticle(@NonNull UserDetails principal, @NonNull Long articleId) {
