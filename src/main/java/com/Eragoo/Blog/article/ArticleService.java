@@ -2,6 +2,7 @@ package com.Eragoo.Blog.article;
 
 import com.Eragoo.Blog.article.dto.ArticleCommand;
 import com.Eragoo.Blog.article.dto.ArticleDto;
+import com.Eragoo.Blog.article.dto.ArticleFilteringCommand;
 import com.Eragoo.Blog.article.dto.ArticleSimpleDto;
 import com.Eragoo.Blog.article.genre.Genre;
 import com.Eragoo.Blog.article.genre.GenreRepository;
@@ -12,6 +13,7 @@ import com.Eragoo.Blog.user.BlogUserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,8 +31,9 @@ public class ArticleService {
     private ArticleMapper articleMapper;
     private BlogUserRepository blogUserRepository;
 
-    public Page<ArticleSimpleDto> getAll(Pageable pageable) {
-        Page<Article> articles = articleRepository.findAll(pageable);
+    public Page<ArticleSimpleDto> getAll(Pageable pageable, ArticleFilteringCommand filteringCommand) {
+        Specification<Article> specification = filteringCommand.getSpecification();
+        Page<Article> articles = articleRepository.findAll(specification, pageable);
         return articles.map(articleMapper::entityToSimpleDto);
     }
 
