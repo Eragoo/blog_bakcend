@@ -16,14 +16,9 @@ import java.util.Set;
 public interface ArticleMapper {
     ArticleDto entityToDto(Article article);
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "author", ignore = true)
-    @Mapping(target = "genres", ignore = true)
-    Article commandToEntity(ArticleCommand command);
-
-    Set<ArticleSimpleDto> entityListToSetDto(List<Article> articleList);
-
     AuthorDto blogUserToAuthorDto(BlogUser user);
+
+    ArticleSimpleDto entityToSimpleDto(Article article);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "author", ignore = true)

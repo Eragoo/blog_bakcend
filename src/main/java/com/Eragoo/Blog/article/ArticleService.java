@@ -3,7 +3,6 @@ package com.Eragoo.Blog.article;
 import com.Eragoo.Blog.article.dto.ArticleCommand;
 import com.Eragoo.Blog.article.dto.ArticleDto;
 import com.Eragoo.Blog.article.dto.ArticleSimpleDto;
-import com.Eragoo.Blog.article.dto.AuthorDto;
 import com.Eragoo.Blog.article.genre.Genre;
 import com.Eragoo.Blog.article.genre.GenreRepository;
 import com.Eragoo.Blog.error.exception.ConflictException;
@@ -11,12 +10,13 @@ import com.Eragoo.Blog.error.exception.NotFoundException;
 import com.Eragoo.Blog.user.BlogUser;
 import com.Eragoo.Blog.user.BlogUserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -29,9 +29,9 @@ public class ArticleService {
     private ArticleMapper articleMapper;
     private BlogUserRepository blogUserRepository;
 
-    public Set<ArticleSimpleDto> getAll() {
-        List<Article> articles = articleRepository.findAll();
-        return articleMapper.entityListToSetDto(articles);
+    public Page<ArticleSimpleDto> getAll(Pageable pageable) {
+        Page<Article> articles = articleRepository.findAll(pageable);
+        return articles.map(articleMapper::entityToSimpleDto);
     }
 
     public ArticleDto get(long id) {
