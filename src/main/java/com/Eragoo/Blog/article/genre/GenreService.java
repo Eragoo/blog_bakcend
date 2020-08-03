@@ -2,8 +2,10 @@ package com.Eragoo.Blog.article.genre;
 
 import com.Eragoo.Blog.article.genre.dto.GenreCommand;
 import com.Eragoo.Blog.article.genre.dto.GenreDto;
+import com.Eragoo.Blog.article.genre.dto.GenreFilteringCommand;
 import com.Eragoo.Blog.error.exception.NotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,8 +23,9 @@ public class GenreService {
         return genreMapper.entityToDto(genre);
     }
 
-    public Set<GenreDto> getAll() {
-        List<Genre> genres = genreRepository.findAll();
+    public Set<GenreDto> getAll(GenreFilteringCommand filteringDto) {
+        Specification<Genre> specification = filteringDto.getSpecification();
+        List<Genre> genres = genreRepository.findAll(specification);
         return genreMapper.entityListToSetDto(genres);
     }
 

@@ -2,10 +2,12 @@ package com.Eragoo.Blog.article;
 
 import com.Eragoo.Blog.article.dto.ArticleCommand;
 import com.Eragoo.Blog.article.dto.ArticleDto;
+import com.Eragoo.Blog.article.dto.ArticleFilteringCommand;
 import com.Eragoo.Blog.article.dto.ArticleSimpleDto;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
@@ -24,8 +26,8 @@ public class ArticleController {
     @GetMapping
     @PreAuthorize("hasAnyAuthority(T(com.Eragoo.Blog.role.Permission).VIEW_ARTICLES, " +
             "T(com.Eragoo.Blog.role.Permission).MANAGE_ARTICLES)")
-    public ResponseEntity<Page<ArticleSimpleDto>> getAll(Pageable pageable) {
-        Page<ArticleSimpleDto> articles = articleService.getAll(pageable);
+    public ResponseEntity<Page<ArticleSimpleDto>> getAll(Pageable pageable, ArticleFilteringCommand filteringCommand) {
+        Page<ArticleSimpleDto> articles = articleService.getAll(pageable, filteringCommand);
         return ResponseEntity.ok(articles);
     }
 

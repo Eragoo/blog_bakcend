@@ -2,6 +2,7 @@ package com.Eragoo.Blog.article.genre;
 
 import com.Eragoo.Blog.article.genre.dto.GenreCommand;
 import com.Eragoo.Blog.article.genre.dto.GenreDto;
+import com.Eragoo.Blog.article.genre.dto.GenreFilteringCommand;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +27,8 @@ public class GenreController {
     @GetMapping
     @PreAuthorize("hasAnyAuthority(T(com.Eragoo.Blog.role.Permission).VIEW_GENRES, " +
             "T(com.Eragoo.Blog.role.Permission).MANAGE_GENRES)")
-    public ResponseEntity<Set<GenreDto>> getAll() {
-        return ResponseEntity.ok(genreService.getAll());
+    public ResponseEntity<Set<GenreDto>> getAll(GenreFilteringCommand filteringDto) {
+        return ResponseEntity.ok(genreService.getAll(filteringDto));
     }
 
     @PostMapping
