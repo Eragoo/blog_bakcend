@@ -1,5 +1,5 @@
 # blog-bakcend
-This is a example how to write simple RESTful API
+This is an example how to write simple RESTful API
 
 > ### Tech stack:
 > - Spring Boot, Data, Security
