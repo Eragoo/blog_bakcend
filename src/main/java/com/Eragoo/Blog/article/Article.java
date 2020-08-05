@@ -28,5 +28,6 @@ public class Article {
             inverseJoinColumns = {@JoinColumn(name = "genre_id")}
     )
     private Set<Genre> genres;
+    private Boolean deleted;
 }
 

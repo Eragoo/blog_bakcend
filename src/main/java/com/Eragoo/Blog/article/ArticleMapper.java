@@ -23,5 +23,6 @@ public interface ArticleMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "author", ignore = true)
     @Mapping(target = "genres", ignore = true)
+    @Mapping(target = "deleted", ignore = true)
     void updateArticleFromCommand(ArticleCommand command, @MappingTarget Article article);
 }
