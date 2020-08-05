@@ -44,7 +44,7 @@ public class ArticleService {
 
     public void delete(long id) {
         Article article = getArticleIfExist(id);
-        articleRepository.delete(article);
+        article.setDeleted(true);
     }
 
     public ArticleDto create(ArticleCommand articleCommand) {
