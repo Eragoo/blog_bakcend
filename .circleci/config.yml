@@ -1,11 +1,10 @@
-version: 2 # use CircleCI 2.0
-jobs: # a collection of steps
-  build: # runs not using Workflows must have a `build` job as entry point
-
-    working_directory: ~/circleci-demo-java-spring # directory where steps will run
+version: 2
+jobs:
+  build:
+    working_directory: ~/repo # directory where steps will run
 
     docker: # run the steps with Docker
-      - image: circleci/openjdk:8-jdk-stretch # ...with this image as the primary container; this is where all `steps` will run
+      - image: circleci/openjdk:12-jdk-stretch # ...with this image as the primary container; this is where all `steps` will run
 
     steps: # a collection of executable commands
 
