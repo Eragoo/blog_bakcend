@@ -34,6 +34,8 @@ jobs:
 
   test:
     steps: # a collection of executable commands
+      docker: # run the steps with Docker
+        - image: circleci/openjdk:9.0.4-jdk
 
       - checkout # check out source code to working directory
 
