@@ -28,18 +28,20 @@ import java.util.function.Predicate;
 public class ArticleService {
     private ArticleRepository articleRepository;
     private GenreRepository genreRepository;
-    private ArticleMapper articleMapper;
+    //private ArticleMapper articleMapper;
     private BlogUserRepository blogUserRepository;
 
     public Page<ArticleSimpleDto> getAll(Pageable pageable, ArticleFilteringCommand filteringCommand) {
         Specification<Article> specification = filteringCommand.getSpecification();
         Page<Article> articles = articleRepository.findAll(specification, pageable);
-        return articles.map(articleMapper::entityToSimpleDto);
+        //return articles.map(articleMapper::entityToSimpleDto);
+        return null;
     }
 
     public ArticleDto get(long id) {
         Article article = getArticleIfExist(id);
-        return articleMapper.entityToDto(article);
+        //return articleMapper.entityToDto(article);
+        return null;
     }
 
     public void delete(long id) {
@@ -58,9 +60,9 @@ public class ArticleService {
     }
 
     private void updateArticleFields(Article article, ArticleCommand articleCommand, BlogUser author, Set<Genre> genres) {
-        articleMapper.updateArticleFromCommand(articleCommand, article);
-        article.setGenres(genres);
-        article.setAuthor(author);
+//        articleMapper.updateArticleFromCommand(articleCommand, article);
+//        article.setGenres(genres);
+//        article.setAuthor(author);
     }
 
     public ArticleDto update(long id , ArticleCommand articleCommand) {
@@ -69,7 +71,8 @@ public class ArticleService {
         Set<Genre> newGenres = findAllGenres(articleCommand.getGenres());
         validateProvidedGenres(articleCommand.getGenres(), newGenres);
         updateArticleFields(article, articleCommand, newAuthor, newGenres);
-        return articleMapper.entityToDto(article);
+        //return articleMapper.entityToDto(article);
+        return null;
     }
 
     private BlogUser findAuthor(Long authorId) {
@@ -80,7 +83,8 @@ public class ArticleService {
 
     private ArticleDto saveArticle(Article article) {
         Article saved = articleRepository.save(article);
-        return articleMapper.entityToDto(saved);
+        //return articleMapper.entityToDto(saved);
+        return null;
     }
 
     private Set<Genre> findAllGenres(Set<Long> genres) {

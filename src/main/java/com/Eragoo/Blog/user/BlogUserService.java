@@ -16,22 +16,24 @@ public class BlogUserService {
     public static final String DEFAULT_USER_ROLE = "REGULAR_USER";
 
     private BlogUserRepository blogUserRepository;
-    private BlogUserMapper blogUserMapper;
+    //private BlogUserMapper blogUserMapper;
     private BCryptPasswordEncoder passwordEncoder;
     private RoleRepository roleRepository;
 
     public BlogUserDto create(BlogUserCommand blogUserCommand) {
         BlogUser blogUser = createBlogUserUsingCommand(blogUserCommand);
         BlogUser savedUser = blogUserRepository.save(blogUser);
-        return blogUserMapper.entityToDto(savedUser);
+        //return blogUserMapper.entityToDto(savedUser);
+        return null;
     }
 
     private BlogUser createBlogUserUsingCommand(BlogUserCommand blogUserCommand) {
-        BlogUser blogUser = blogUserMapper.commandToEntity(blogUserCommand);
-        setBlogUserDefaultRole(blogUser);
-        String encodedPassword = passwordEncoder.encode(blogUserCommand.getPassword());
-        blogUser.setPassword(encodedPassword);
-        return blogUser;
+//        BlogUser blogUser = blogUserMapper.commandToEntity(blogUserCommand);
+//        setBlogUserDefaultRole(blogUser);
+//        String encodedPassword = passwordEncoder.encode(blogUserCommand.getPassword());
+//        blogUser.setPassword(encodedPassword);
+//        return blogUser;
+        return null;
     }
 
     private void setBlogUserDefaultRole(BlogUser blogUser) {

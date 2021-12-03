@@ -29,9 +29,8 @@ public class TokenProvider {
     }
 
     public Optional<AuthenticatedUser> parseUser(String token) {
-        Claims claims = Jwts.parserBuilder()
+        Claims claims = Jwts.parser()
                 .setSigningKey(securityProps.getSignature().getBytes())
-                .build()
                 .parseClaimsJws(token)
                 .getBody();
 

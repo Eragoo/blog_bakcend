@@ -13,25 +13,28 @@ import java.util.List;
 @AllArgsConstructor
 public class RoleService {
     private RoleRepository roleRepository;
-    private RoleMapper roleMapper;
+    //private RoleMapper roleMapper;
 
     public RoleDto getById(long id) {
         Role role = roleRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Role with id " + id + " not found"));
 
-        return roleMapper.entityToDto(role);
+        //return roleMapper.entityToDto(role);
+        return null;
     }
 
     @Transactional
     public RoleDto save(RoleCommand roleCommand) {
-        Role providedRole = roleMapper.commandToEntity(roleCommand);
-        Role savedRole = roleRepository.save(providedRole);
-        return roleMapper.entityToDto(savedRole);
+        //Role providedRole = roleMapper.commandToEntity(roleCommand);
+        //Role savedRole = roleRepository.save(providedRole);
+        //return roleMapper.entityToDto(savedRole);
+        return null;
     }
 
     public List<RoleDto> getAll() {
         List<Role> all = roleRepository.findAll();
-        return roleMapper.listEntityToListDto(all);
+        //return roleMapper.listEntityToListDto(all);
+        return null;
     }
 
     public void delete(long id) {
@@ -43,8 +46,9 @@ public class RoleService {
         Role role = roleRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Role with id " + id + " not found"));
 
-        roleMapper.updateRoleFromCommand(command, role);
+        //roleMapper.updateRoleFromCommand(command, role);
         //because of transaction entity saves without calling .save() method
-        return roleMapper.entityToDto(role);
+        //return roleMapper.entityToDto(role);
+        return null;
     }
 }
